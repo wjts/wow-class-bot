@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  discord-bot:
+    build: .
+    container_name: wow-class-bot
+    restart: unless-stopped
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - GUILD_ID=${GUILD_ID}
+      - CHANNEL_ID=${CHANNEL_ID}
+      - REQUIRED_ROLE=${REQUIRED_ROLE}
+      - ADMIN_ROLE=${ADMIN_ROLE}
+      - GOOGLE_CREDENTIALS_FILE=/app/credentials.json
+      - SPREADSHEET_NAME=${SPREADSHEET_NAME}
+      - HIDDEN_COLUMNS=${HIDDEN_COLUMNS}
+    volumes:
+      - ./credentials.json:/app/credentials.json:ro
+      - ./logs:/app/logs
+    networks:
+      - bot-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  bot-network:
+    driver: bridge

@@ -1,0 +1,29 @@
+[Unit]
+Description=WoW Class Management Discord Bot
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=botuser
+Group=botuser
+WorkingDirectory=/opt/discord-bot
+ExecStart=/opt/discord-bot/venv/bin/python /opt/discord-bot/main.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=wow-class-bot
+
+# Environment file
+EnvironmentFile=/opt/discord-bot/.env
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/discord-bot/logs
+
+[Install]
+WantedBy=multi-user.target
