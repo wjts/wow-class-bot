@@ -55,7 +55,9 @@ Thumbs.db
 
 # Logs
 *.log
-logs/
+logs/*.log
+logs/*.txt
+!logs/.gitkeep
 
 # Bot-specific
 bot_data/

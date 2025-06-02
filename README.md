@@ -7,16 +7,15 @@ A Discord bot that helps manage World of Warcraft class and specialization selec
 - **Class Selection**: Choose from all 13 WoW classes with their respective specializations
 - **Character Names**: Collect in-game character names for easy identification
 - **One Character Per User**: Each Discord user can register one character (but can update it anytime)
-- **Role Statistics**: Automatic role distribution tracking (Tank/Healer/Melee DPS/Ranged DPS)
 - **Self-Management**: Players can update or delete their own selections
 - **Admin Controls**: Admins can remove any player's selection
 - **Role-Based Access**: Separate permissions for regular users and admins
 - **Channel Restriction**: Bot only responds in designated channels
-- **Google Sheets Integration**: Dual worksheet system with hidden sensitive columns
+- **Google Sheets Integration**: Clean worksheet system for data management
 - **User-Friendly Interface**: Interactive dropdown menus, modals, and confirmation buttons
 - **Change Tracking**: Logs when users update their selections with timestamps
 - **Ephemeral Responses**: Private responses to keep channels clean
-- **Auto-Updates**: Role statistics refresh automatically when selections change
+- **Modular Architecture**: Clean, maintainable codebase with separated concerns
 
 ## Supported Classes & Specializations
 
@@ -41,8 +40,6 @@ A Discord bot that helps manage World of Warcraft class and specialization selec
 - `/myclass` - View your current character selection
 - `/deleteclass` - Delete your character selection
 - `/classlist` - View all available classes and specializations
-- `/rolestats` - View role distribution statistics
-- `/refreshstats` - Manually refresh role statistics
 
 ### **Admin Commands**
 - `/removeuser <user>` - Remove a specific user's class selection (requires admin role)
@@ -113,7 +110,7 @@ A Discord bot that helps manage World of Warcraft class and specialization selec
 - **ADMIN_ROLE**: Role name required for admin commands (default: "Admin")
 - **GOOGLE_CREDENTIALS_FILE**: Path to your Google service account JSON file
 - **SPREADSHEET_NAME**: Name of the Google Spreadsheet to use
-- **HIDDEN_COLUMNS**: Comma-separated list of column numbers to hide (default: "1,8,9")
+
 
 #### Getting Discord IDs
 
@@ -135,30 +132,20 @@ The bot will:
 
 ## Google Sheets Structure
 
-The bot automatically creates two worksheets:
+The bot automatically creates a clean worksheet:
 
 ### **Class Management Worksheet**
 | Column | Description |
 |--------|-------------|
-| Discord ID | User's Discord ID (hidden by default) |
+| Discord ID | User's Discord ID |
 | Username | Discord username |
 | Display Name | Server display name |
 | In-Game Name | Player's WoW character name |
 | Class | Selected WoW class |
 | Specialization | Selected specialization |
 | Last Updated | Timestamp of last update |
-| Update Count | Number of times updated (hidden by default) |
-| Notes | Additional information (hidden by default) |
-
-### **Role Summary Worksheet**
-| Column | Description |
-|--------|-------------|
-| Role | Tank, Healer, Melee DPS, Ranged DPS |
-| Count | Number of players in each role |
-| Percentage | Percentage of total players |
-| Most Popular Class | Most chosen class for that role |
-| Most Popular Spec | Most chosen specialization |
-| Last Updated | Timestamp of last calculation |
+| Update Count | Number of times updated |
+| Notes | Additional information |
 
 ## Usage
 
@@ -176,10 +163,9 @@ The bot automatically creates two worksheets:
 - **Update**: Use `/setclass` to change your class, spec, or character name
 - **Delete**: Use `/deleteclass` to remove your character entirely
 
-### **Viewing Statistics**
-- **Role Stats**: Use `/rolestats` to see role distribution
+### **Viewing Information**
 - **Class List**: Use `/classlist` to see all available options
-- **Refresh**: Use `/refreshstats` to manually update statistics
+- **Google Sheets**: View detailed data in the connected spreadsheet
 
 ### **Admin Features**
 - **Remove User**: Use `/removeuser @username` to remove a player's selection
@@ -201,6 +187,31 @@ The bot logs important events including:
 - Google Sheets operations
 - User selections
 - Errors and warnings
+
+## Code Structure
+
+The bot is built with a modular architecture for easy maintenance:
+
+```
+discord-bot/
+├── main.py              # Main bot entry point
+├── src/
+│   ├── __init__.py      # Package initialization
+│   ├── config.py        # Configuration and constants
+│   ├── sheets_handler.py # Google Sheets operations
+│   ├── commands.py      # Discord slash commands
+│   └── ui_components.py # UI components (dropdowns, modals)
+├── scripts/
+│   ├── install.sh       # Automated installation
+│   └── backup.sh        # Backup script
+└── requirements.txt     # Python dependencies
+```
+
+This modular structure provides:
+- **Separation of Concerns**: Each module has a specific responsibility
+- **Easy Maintenance**: Changes are isolated to relevant modules
+- **Code Reusability**: Components can be easily reused or modified
+- **Better Testing**: Each module can be tested independently
 
 Check the console output for detailed information about any issues.
 
